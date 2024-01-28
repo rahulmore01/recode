@@ -1,0 +1,521 @@
+import { stagger, useAnimate } from "framer-motion";
+import {
+  Availability,
+  Colors,
+  Music,
+  SchedulingLinks,
+  Team,
+  Todo,
+} from "@/components/features/card";
+import { FeatureTitle } from "@/components/features/title";
+import { MusicVisual, OtherVisual } from "@/components/features/visual";
+import Hero from "@/components/features/hero";
+import { useFeatureStore } from "@/components/features/store";
+import { useEffect } from "react";
+import { useHidePageOverflow } from "@/utils/toggle-page-overflow";
+import { useEscapePress } from "@/utils/use-escape-press";
+
+const features = [
+  {
+    title: "Use your calendar as a todo list",
+    id: "todo-list",
+    card: Todo,
+    visual: OtherVisual,
+  },
+  {
+    title: "Color your calendar to organize",
+    id: "colors",
+    card: Colors,
+    visual: OtherVisual,
+  },
+  {
+    title: "Instantly know if someone is available",
+    id: "availability",
+    card: Availability,
+    visual: OtherVisual,
+  },
+  {
+    title: "Track what you listened to when",
+    id: "music",
+    card: Music,
+    visual: MusicVisual,
+  },
+  {
+    title: "Send scheduling links guests love",
+    id: "scheduling-links",
+    card: SchedulingLinks,
+    visual: OtherVisual,
+  },
+  {
+    title: "Always know what your team is up to",
+    id: "team",
+    card: Team,
+    visual: OtherVisual,
+  },
+];
+
+const Works = () => {
+  const [scope, animate] = useAnimate();
+  const fullscreenFeature = useFeatureStore((state) => state.fullscreenFeature);
+  const lastFullscreenFeature = useFeatureStore(
+    (state) => state.lastFullscreenFeature
+  );
+  const setFullscreenFeature = useFeatureStore(
+    (state) => state.setFullscreenFeature
+  );
+
+  const onEscapePress = () => {
+    if (fullscreenFeature) setFullscreenFeature(null);
+  };
+
+  useEscapePress(onEscapePress);
+  useHidePageOverflow(!!fullscreenFeature);
+
+  useEffect(() => {
+    if (fullscreenFeature) {
+      animate([
+        [
+          ".feature-title",
+          { opacity: 0, x: "-200px" },
+          { duration: 0.3, delay: stagger(0.05) },
+        ],
+        [
+          `.visual-${lastFullscreenFeature}`,
+          { opacity: 1, scale: 1, pointerEvents: "auto" },
+          { at: "<" },
+        ],
+        [".active-card .gradient", { opacity: 0, scale: 0 }, { at: "<" }],
+        [".active-card .show-me-btn", { opacity: 0 }, { at: "<" }],
+        [
+          ".back-to-site-btn",
+          { opacity: 1, y: "0px" },
+          { at: "<", duration: 0.3 },
+        ],
+      ]);
+    } else {
+      animate([
+        [
+          ".feature-title",
+          { opacity: 1, x: "0px" },
+          { duration: 0.3, delay: stagger(0.05) },
+        ],
+        [
+          `.visual-${lastFullscreenFeature}`,
+          { opacity: 0, scale: 0.75, pointerEvents: "none" },
+          { at: "<" },
+        ],
+        [".active-card .gradient", { opacity: 1, scale: 1 }, { at: "<" }],
+        [
+          ".back-to-site-btn",
+          { opacity: 0, y: "300px" },
+          { at: "<", duration: 0.3 },
+        ],
+        [".active-card .show-me-btn", { opacity: 1 }],
+      ]);
+    }
+  }, [animate, fullscreenFeature, lastFullscreenFeature]);
+
+  return (
+    <div className="mx-auto max-w-6xl px-4">
+      <Hero />
+      <div ref={scope}>
+        {features.map((feature) => (
+          <feature.visual id={feature.id} key={feature.id} />
+        ))}
+        <button
+          onClick={() => setFullscreenFeature(null)}
+          className="back-to-site-btn fixed bottom-6 left-1/2 z-10 -translate-x-1/2 translate-y-[300%] rounded-full bg-black px-4 py-2 text-white opacity-0 shadow-lg"
+        >
+          Back to site
+        </button>
+        <div className="flex w-full items-start gap-20">
+          <div className="w-full py-[50vh]">
+            <ul>
+              {features.map((feature) => (
+                <li key={feature.id}>
+                  <FeatureTitle id={feature.id}>{feature.title}</FeatureTitle>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="sticky top-0 flex h-screen w-full items-center">
+            <div className="relative aspect-square w-full rounded-2xl bg-gray-100 [&:has(>_.active-card)]:bg-transparent">
+              {features.map((feature) => (
+                <feature.card id={feature.id} key={feature.id} />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="h-screen">More room to scroll</div>
+    </div>
+  );
+};
+
+export default Works;
+// import { stagger, useAnimate } from "framer-motion";
+// import {
+//   Availability,
+//   Colors,
+//   Music,
+//   SchedulingLinks,
+//   Team,
+//   Todo,
+// } from "@/components/features/card";
+// import { FeatureTitle } from "@/components/features/title";
+// import { MusicVisual, OtherVisual } from "@/components/features/visual";
+// import Hero from "@/components/features/hero";
+// import { useFeatureStore } from "@/components/features/store";
+// import { useEffect } from "react";
+// import { useHidePageOverflow } from "@/utils/toggle-page-overflow";
+// import { useEscapePress } from "@/utils/use-escape-press";
+
+// const features = [
+//   {
+//     title: "Use your calendar as a todo list",
+//     id: "todo-list",
+//     card: Todo,
+//     visual: OtherVisual,
+//   },
+//   {
+//     title: "Color your calendar to organize",
+//     id: "colors",
+//     card: Colors,
+//     visual: OtherVisual,
+//   },
+//   {
+//     title: "Instantly know if someone is available",
+//     id: "availability",
+//     card: Availability,
+//     visual: OtherVisual,
+//   },
+//   {
+//     title: "Track what you listened to when",
+//     id: "music",
+//     card: Music,
+//     visual: MusicVisual,
+//   },
+//   {
+//     title: "Send scheduling links guests love",
+//     id: "scheduling-links",
+//     card: SchedulingLinks,
+//     visual: OtherVisual,
+//   },
+//   {
+//     title: "Always know what your team is up to",
+//     id: "team",
+//     card: Team,
+//     visual: OtherVisual,
+//   },
+// ];
+
+// const Works = () => {
+//   const [scope, animate] = useAnimate();
+//   const fullscreenFeature = useFeatureStore((state) => state.fullscreenFeature);
+//   const lastFullscreenFeature = useFeatureStore(
+//     (state) => state.lastFullscreenFeature
+//   );
+//   const setFullscreenFeature = useFeatureStore(
+//     (state) => state.setFullscreenFeature
+//   );
+
+//   const onEscapePress = () => {
+//     if (fullscreenFeature) setFullscreenFeature(null);
+//   };
+
+//   useEscapePress(onEscapePress);
+//   useHidePageOverflow(!!fullscreenFeature);
+
+//   useEffect(() => {
+//     if (fullscreenFeature) {
+//       animate([
+//         [
+//           ".feature-title",
+//           { opacity: 0, x: "-200px" },
+//           { duration: 0.3, delay: stagger(0.05) },
+//         ],
+//         [
+//           `.visual-${lastFullscreenFeature}`,
+//           { opacity: 1, scale: 1, pointerEvents: "auto" },
+//           { at: "<" },
+//         ],
+//         [".active-card .gradient", { opacity: 0, scale: 0 }, { at: "<" }],
+//         [".active-card .show-me-btn", { opacity: 0 }, { at: "<" }],
+//         [
+//           ".back-to-site-btn",
+//           { opacity: 1, y: "0px" },
+//           { at: "<", duration: 0.3 },
+//         ],
+//       ]);
+//     } else {
+//       animate([
+//         [
+//           ".feature-title",
+//           { opacity: 1, x: "0px" },
+//           { duration: 0.3, delay: stagger(0.05) },
+//         ],
+//         [
+//           `.visual-${lastFullscreenFeature}`,
+//           { opacity: 0, scale: 0.75, pointerEvents: "none" },
+//           { at: "<" },
+//         ],
+//         [".active-card .gradient", { opacity: 1, scale: 1 }, { at: "<" }],
+//         [
+//           ".back-to-site-btn",
+//           { opacity: 0, y: "300px" },
+//           { at: "<", duration: 0.3 },
+//         ],
+//         [".active-card .show-me-btn", { opacity: 1 }],
+//       ]);
+//     }
+//   }, [animate, fullscreenFeature, lastFullscreenFeature]);
+
+//   return (
+//     <div className="mx-auto max-w-6xl px-4">
+//       <Hero />
+//       <div ref={scope}>
+//         {features.map((feature) => (
+//           <feature.visual id={feature.id} key={feature.id} />
+//         ))}
+//         <button
+//           onClick={() => setFullscreenFeature(null)}
+//           className="back-to-site-btn fixed bottom-6 left-1/2 z-10 -translate-x-1/2 translate-y-[300%] rounded-full bg-black px-4 py-2 text-white opacity-0 shadow-lg"
+//         >
+//           Back to site
+//         </button>
+//         <div className="flex w-full items-start gap-20">
+//           <div className="w-full py-[50vh]">
+//             <ul>
+//               {features.map((feature) => (
+//                 <li key={feature.id}>
+//                   <FeatureTitle id={feature.id}>{feature.title}</FeatureTitle>
+//                 </li>
+//               ))}
+//             </ul>
+//           </div>
+//           <div className="sticky top-0 flex h-screen w-full items-center">
+//             <div className="relative aspect-square w-full rounded-2xl bg-gray-100 [&:has(>_.active-card)]:bg-transparent">
+//               {features.map((feature) => (
+//                 <feature.card id={feature.id} key={feature.id} />
+//               ))}
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//       <div className="h-screen">More room to scroll</div>
+//     </div>
+//   );
+// };
+
+// export default Works;
+
+// // Works.jsx
+// import React, { useState } from "react";
+// import WorkStep from "./WorkStep";
+
+// const Works = () => {
+//   const imageList = [
+//     "https://images.unsplash.com/photo-1671920090611-9a40303b52cb?q=80&w=2865&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+//     "https://images.unsplash.com/photo-1706065456531-8545fc5050f4?q=80&w=2553&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+//     "https://images.unsplash.com/photo-1682687981603-ae874bf432f2?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+//     "https://images.unsplash.com/photo-1705787333828-1b1dd2b851ac?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+//     "https://images.unsplash.com/photo-1705657309585-bfd95e05d0fb?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+//     "https://plus.unsplash.com/premium_photo-1705352059948-e5512efca860?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+//     "https://images.unsplash.com/photo-1706061751033-00868d1c6b72?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+//   ];
+
+//   const steps = [
+//     {
+//       number: 1,
+//       title: "Nonprofits Post Content Requests",
+//       description:
+//         "Nonprofits submit requests detailing the types of custom branded content needed for their social media and campaigns.",
+//     },
+//     {
+//       number: 2,
+//       title: "Creatives Claim Aligned Requests",
+//       description:
+//         "Creatives review open requests and claim nonprofit projects matching their skills, values, and availability.",
+//     },
+//     {
+//       number: 3,
+//       title: "Creatives Develop Custom Assets",
+//       description:
+//         "After claiming a request, creatives design branded social posts, graphics, videos or other assets based on provided nonprofit brand guidelines.",
+//     },
+//     {
+//       number: 4,
+//       title: "Nonprofits Launch Voting Rounds",
+//       description:
+//         "Nonprofits select their favorite 3-6 submissions and launch community voting rounds to decide on winning entries.",
+//     },
+//     {
+//       number: 5,
+//       title: "Winning Entry Gets Published",
+//       description:
+//         "The nonprofit publishes the community-chosen submission on their social platforms and marketing materials.",
+//     },
+//     {
+//       number: 6,
+//       title: "Community Engagement Amplifies Reach",
+//       description:
+//         "The collective community shares and engages with published creative posts to extend their reach and impact.",
+//     },
+//     {
+//       number: 7,
+//       title: "Creatives Earn Points for Rewards",
+//       description:
+//         "Creatives earn points and build leaderboard status throughout the process, redeeming credits for rewards.",
+//     },
+//   ];
+
+//   const [selectedStep, setSelectedStep] = useState(0);
+
+//   const handleStepClick = (index) => {
+//     setSelectedStep(index);
+//   };
+
+//   return (
+//     <div className="w-full h-auto flex flex-col-reverse  lg:flex-row justify-center items-center lg:items-start gap-6  lg:gap-[126px] mt-0 lg:mt-20 pb-4 lg:pb-10">
+//       <div>
+//         <h3 className="hidden lg:block primary text-[32px] text-darkPink pb-[52px]">
+//           How it works
+//         </h3>
+//         <div className="SpaceMonoRegular text-[15px] text-lightGray w-full max-w-[480px] flex flex-col justify-start items-center gap-6 pt-20">
+//           {steps.map((step, index) => (
+//             <div
+//               key={index}
+//               className={`${
+//                 selectedStep === index ? "opacity-100" : "opacity-20"
+//               } transition-opacity duration-500`}
+//               onClick={() => handleStepClick(index)}
+//             >
+//               <WorkStep
+//                 number={step.number}
+//                 title={step.title}
+//                 description={step.description}
+//               />
+//             </div>
+//           ))}
+//         </div>
+//       </div>
+//       <div className="w-[244px] h-[320px] lg:w-[486px] lg:h-[638px]">
+//         <img
+//           src={
+//             selectedStep !== null
+//               ? imageList[selectedStep]
+//               : "https://images.unsplash.com/photo-1671920090611-9a40303b52cb?q=80&w=2865&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+//           }
+//           alt=""
+//           className="object-fit "
+//         />
+//       </div>
+//       <h3 className=" lg:hidden w-full text-center primary text-[32px] text-darkPink pb-0 pt-10">
+//         How it works
+//       </h3>
+//     </div>
+//   );
+// };
+
+// export default Works;
+// // Works.jsx
+// import React, { useState } from "react";
+// import WorkStep from "./WorkStep";
+
+// const Works = () => {
+//   const imageList = [
+//     "https://images.unsplash.com/photo-1671920090611-9a40303b52cb?q=80&w=2865&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+//     "https://images.unsplash.com/photo-1706065456531-8545fc5050f4?q=80&w=2553&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+//     "https://images.unsplash.com/photo-1682687981603-ae874bf432f2?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+//     "https://images.unsplash.com/photo-1705787333828-1b1dd2b851ac?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+//     "https://images.unsplash.com/photo-1705657309585-bfd95e05d0fb?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+//     "https://plus.unsplash.com/premium_photo-1705352059948-e5512efca860?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+//     "https://images.unsplash.com/photo-1706061751033-00868d1c6b72?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+//   ];
+
+//   const steps = [
+//     {
+//       number: 1,
+//       title: "Nonprofits Post Content Requests",
+//       description:
+//         "Nonprofits submit requests detailing the types of custom branded content needed for their social media and campaigns.",
+//     },
+//     {
+//       number: 2,
+//       title: "Creatives Claim Aligned Requests",
+//       description:
+//         "Creatives review open requests and claim nonprofit projects matching their skills, values, and availability.",
+//     },
+//     {
+//       number: 3,
+//       title: "Creatives Develop Custom Assets",
+//       description:
+//         "After claiming a request, creatives design branded social posts, graphics, videos or other assets based on provided nonprofit brand guidelines.",
+//     },
+//     {
+//       number: 4,
+//       title: "Nonprofits Launch Voting Rounds",
+//       description:
+//         "Nonprofits select their favorite 3-6 submissions and launch community voting rounds to decide on winning entries.",
+//     },
+//     {
+//       number: 5,
+//       title: "Winning Entry Gets Published",
+//       description:
+//         "The nonprofit publishes the community-chosen submission on their social platforms and marketing materials.",
+//     },
+//     {
+//       number: 6,
+//       title: "Community Engagement Amplifies Reach",
+//       description:
+//         "The collective community shares and engages with published creative posts to extend their reach and impact.",
+//     },
+//     {
+//       number: 7,
+//       title: "Creatives Earn Points for Rewards",
+//       description:
+//         "Creatives earn points and build leaderboard status throughout the process, redeeming credits for rewards.",
+//     },
+//   ];
+
+//   const [selectedStep, setSelectedStep] = useState(null);
+
+//   const handleStepClick = (index) => {
+//     setSelectedStep(index);
+//   };
+
+//   return (
+//     <div className="w-full h-screen flex justify-center items-start gap-[126px] mt-20 pb-10">
+//       <div>
+//         <h3 className="primary text-[32px] text-darkPink pb-[52px]">
+//           How it works
+//         </h3>
+//         <div className="SpaceMonoRegular text-[15px] text-lightGray w-full max-w-[480px] flex flex-col justify-start items-center gap-6">
+//           {steps.map((step, index) => (
+//             <div
+//               key={index}
+//               className={`${
+//                 selectedStep === index ? "opacity-100" : "opacity-20"
+//               } transition-opacity duration-500`}
+//               onClick={() => handleStepClick(index)}
+//             >
+//               <WorkStep
+//                 number={step.number}
+//                 title={step.title}
+//                 description={step.description}
+//               />
+//             </div>
+//           ))}
+//         </div>
+//       </div>
+//       <div className="w-[486px] h-[638px]">
+//         <img
+//           src={selectedStep !== null ? imageList[selectedStep] : ""}
+//           alt=""
+//         />
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Works;
