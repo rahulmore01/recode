@@ -13,7 +13,6 @@ import Funding from "@/components/funding/Funding";
 export default function Home() {
   return (
     <div className="relative bg-background  ">
-      {/* <div className="relative bg-background w-full max-w-[1440px] flex flex-col"> */}
       <Nav />
       <Hero />
       <HeroCards />
