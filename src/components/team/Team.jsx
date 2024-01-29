@@ -2,26 +2,7 @@ import React from "react";
 
 const Team = () => {
   return (
-    <div className="flex flex-col justify-center items-center py-20">
-      {/* <h3 className="primary text-[28px] lg:text-[32px] text-darkPink mb-4 w-full text-center px-4">
-        Meet Our Founding Team Recode
-      </h3> */}
-      {/* <p className="SpaceMonoRegular text-[14px] lg:text-[15px] text-lightGray w-full max-w-[440px] lg:max-w-[716px] text-center mb-[50px] px-4">
-        We're building these tools both to empower the work of our extended
-        community of changemakers as well as wishing we had it for own
-        organizations!
-      </p>
-
-      <div className="flex flex-col lg:flex-row items-center justify-center gap-6">
-        <div className="flex  gap-6">
-          <img src="/team/p1.png" alt="" className="w-[160px] lg:w-[280px]" />
-          <img src="/team/p2.png" alt="" className="w-[160px] lg:w-[280px]" />
-        </div>
-        <div className="flex  gap-6">
-          <img src="/team/p3.png" alt="" className="w-[160px] lg:w-[280px]" />
-          <img src="/team/p4.png" alt="" className="w-[160px] lg:w-[280px]" />
-        </div>
-      </div> */}
+    <div className="flex flex-col justify-center items-center pb-20">
       <div className="w-full flex flex-col justify-center items-center gap-8 mt-10">
         <div className="relative overflow-hidden flex flex-col justify-center items-center gap-2">
           <div className="h-1 w-screen bg-darkPink"></div>

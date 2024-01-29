@@ -2,9 +2,8 @@ import React from "react";
 
 const HeroCards = () => {
   return (
-    <div className="flex flex-col md:flex-row md:flex-wrap gap-6 justify-center items-center h-full lg:h-[64vh] mt-28 lg:mt-10 ">
-      {/* <div className="flex flex-col lg:flex-row gap-6 justify-center items-center h-full lg:h-[64vh] mt-28 lg:mt-10 "> */}
-      <div className=" w-[343px] h-[302px]  lg:w-[384px] lg:h-[336px] border border-darkPink rounded-[24px] text-lightGray text-[15px] flex flex-col justify-between items-start p-8 SpaceMonoRegular">
+    <div className="flex flex-col md:flex-row md:flex-wrap gap-6 justify-center items-center h-full  mt-8 lg:mt-10 xlg:gap-14">
+      <div className=" w-[343px] h-[302px]  lg:w-[384px] lg:h-[336px] border border-darkPink rounded-[24px] text-lightGray text-[15px] flex flex-col justify-between items-start p-8 SpaceMonoRegular ">
         <h3 className="uppercase text-[20px] primary">For Nonprofits</h3>
         <p>Free custom digital assets to amplify initiatives</p>
         <p>Expanded reach and visibility</p>

@@ -3,11 +3,11 @@ import React from "react";
 const Goal = () => {
   return (
     <div
-      className="flex flex-col-reverse lg:flex-row justify-center items-center gap:20  mlg:gap-[120px] p-6 my-10"
+      className="flex flex-col-reverse md:flex-row justify-center items-center gap:20 md:gap-8  mlg:gap-[120px] p-6 my-10  md:pl-10"
       id="goal"
     >
-      <div className="w-full max-w-[590px] flex flex-col justify-center items-center lg:justify-start lg:items-start   gap-6">
-        <h3 className="primary w-full text-[28px] lg:text-[32px] text-darkPink text-center lg:text-start mt-20 lg:mt-0">
+      <div className="w-full lg:max-w-[590px] flex flex-col md:items-start justify-center items-center lg:justify-start lg:items-start   gap-6 md:w-full md:max-w-[300px]  ">
+        <h3 className="primary w-full text-[28px] lg:text-[32px] text-darkPink text-center  md:text-start mt-20 lg:mt-0">
           our goal
         </h3>
         <p className="SpaceMonoRegular text-[14px]  lg:text-[15px] text-lightGray ">
